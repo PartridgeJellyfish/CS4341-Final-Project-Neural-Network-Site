@@ -24,6 +24,14 @@ function sendIndex(res) {
     res.writeHead(200, {'Content-type': contentType});
     res.end(html, 'utf-8');
 }
+
+function sendHTML(res, html) {
+    var contentType = 'text/html';
+    res.writeHead(200, {'Content-type': contentType});
+    res.end(html, 'utf-8');
+}
+
+
 // server
 var server = http.createServer (function (req, res) {
     var uri = url.parse(req.url)
@@ -35,21 +43,24 @@ var server = http.createServer (function (req, res) {
     case '/index.html':
         sendIndex(res);
         break
+    case '/scripts.js':
+        sendFile(res, 'scripts.js', 'text/javascript');
+        break;
+    case '/loginform':
+        sendHTML(res, indexPage.loginForm());
+        break;
+    case '/signupform':
+        sendHTML(res, indexPage.signupForm());
+        break;
+    case '/README.md':
+        sendFile(res, 'readme.txt', 'text/plain');
+        break;
     default:
-      res.end('404 not found')
-  }
-})
+        res.end('404 not found')
+    }
+});
 
 server.listen(process.env.PORT || port);
-console.log('listening on 8080')
+console.log('listening on 8080');
 
-// subroutines
 
-function sendFile(res, filename) {
-
-  fs.readFile(filename, function(error, content) {
-    res.writeHead(200, {'Content-type': 'text/html'})
-    res.end(content, 'utf-8')
-  })
-
-}

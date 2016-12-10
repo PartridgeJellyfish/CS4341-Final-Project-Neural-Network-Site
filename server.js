@@ -43,6 +43,9 @@ var server = http.createServer (function (req, res) {
     case '/index.html':
         sendIndex(res);
         break
+    case '/style.css':
+        sendFile(res, 'style.css', 'text/css');
+        break;
     case '/scripts.js':
         sendFile(res, 'scripts.js', 'text/javascript');
         break;

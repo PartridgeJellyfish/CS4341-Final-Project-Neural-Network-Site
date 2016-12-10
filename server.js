@@ -4,6 +4,17 @@ var http = require('http')
   , indexPage = require('./index.js')
   , port = 8080;
 
+// subroutines
+
+function sendFile(res, filename, contentType) {
+    contentType = contentType || 'text/html';
+
+    fs.readFile(filename, function (error, content) {
+        res.writeHead(200, {'Content-type': contentType});
+        res.end(content, 'utf-8');
+    });
+
+}
 
 function sendIndex(res) {
     var contentType = 'text/html', html = '';

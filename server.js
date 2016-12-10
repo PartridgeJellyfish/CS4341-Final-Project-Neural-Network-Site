@@ -1,18 +1,29 @@
 var http = require('http')
   , fs   = require('fs')
   , url  = require('url')
+  , indexPage = require('./index.js')
   , port = 8080;
 
-var server = http.createServer (function (req, res) {
-  var uri = url.parse(req.url)
 
-  switch( uri.pathname ) {
+function sendIndex(res) {
+    var contentType = 'text/html', html = '';
+    
+    html += indexPage.index(indexPage.loginForm());
+    
+    res.writeHead(200, {'Content-type': contentType});
+    res.end(html, 'utf-8');
+}
+// server
+var server = http.createServer (function (req, res) {
+    var uri = url.parse(req.url)
+
+    switch( uri.pathname ) {
     case '/':
-      sendFile(res, 'index.html')
-      break
+        sendIndex(res);
+        break
     case '/index.html':
-      sendFile(res, 'index.html')
-      break
+        sendIndex(res);
+        break
     default:
       res.end('404 not found')
   }

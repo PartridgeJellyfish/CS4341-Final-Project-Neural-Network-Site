@@ -73,10 +73,10 @@ var generateTableElement = function(nameOfNeuralNetwork) {
     html += <button onclick="delete()">Delete</button>
     html += '</td>';
     html += '<td>';
-    html += <button onclick="()">Edit</button>
+    html += <button onclick="edit()">Edit</button>
     html += '</td>';
     html += '<td>';
-    html += <button onclick="delete()">Export</button>
+    html += <button onclick="export()">Export</button>
     html += '</td>';
     html += '</tr>';
     html += '</table>';

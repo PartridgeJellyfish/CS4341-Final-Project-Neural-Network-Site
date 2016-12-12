@@ -56,11 +56,42 @@ var signupForm = function() {
     return html;
 }
 
+var setUpCanvas = function(){
+  var html = '';
+  html += '<canvas id="canvas">' + '\n';
+  html += 'Your browser does not support the HTML5 canvas tag.</canvas>' + '\n';
+  html += '<script>'  + '\n'
+  html += 'var canvas = document.getElementById("canvas");' + '\n'
+  html += 'var context = canvas.getContext("2d");' + '\n'
+  html += '// resize the canvas to fill browser window dynamically' + '\n'
+  html += 'window.addEventListener("resize", resizeCanvas, false);' + '\n'
+  html += 'function resizeCanvas() {' + '\n'
+  html += ' canvas.width = window.innerWidth;' + '\n'
+  html += ' canvas.height = window.innerHeight;' + '\n'
+  html += ' /**' + '\n'
+  html += ' * Your drawings need to be inside this function otherwise they will be reset when ' + '\n'
+  html += ' * you resize the browser window and the canvas goes will be cleared.' + '\n'
+  html += ' */' + '\n'
+  html += ' drawStuff(); ' + '\n'
+  html += '}' + '\n'
+  html += 'resizeCanvas();' + '\n'
+  html += 'function drawStuff() {' + '\n'
+  html += ' // do your drawing stuff here' + '\n'
+  html += ' context.moveTo(0,0);' + '\n'
+  html += ' context.lineTo(window.innerWidth, window.innerHeight);' + '\n'
+  html += ' context.stroke();' + '\n'
+  html += '}' + '\n'
+  html += '</script>' + '\n'
+
+  return html;
+}
+
 
 module.exports = {
     head : indexHead,
     body : indexBody,
     index : index,
     loginForm : loginForm,
-    signupForm : signupForm
+    signupForm : signupForm,
+    setUpCanvas : setUpCanvas
 };

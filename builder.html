@@ -1,0 +1,65 @@
+<svg id="MainBoard" width="100%" height="100%" ></svg>
+
+<script type="text/javascript" src="node_modules/snap/dist/snap.svg-min.js"></script>
+
+<script>
+	var s = Snap("#MainBoard");
+	window.addEventListener("resize", resize, false);
+
+	var background = s.rect(0, 0, 0, 0);
+	var backgroundLines = [];
+
+	var dragTab = s.rect(0, 0, 0, 0);
+	var dragTabext = s.rect(0,0,0,0);
+	var mask1 = s.circle(0,0,0);
+	var mask2 = s.circle(0,0,0);
+
+	function resize(){
+		background.attr({fill: "#005cf2"});
+		background.animate({width: window.innerWidth, height: window.innerHeight}, 1000);
+
+		for(i = 0; i < backgroundLines.length; i++){
+			backgroundLines[i].remove();
+		}
+
+		backgroundLines = [];
+
+		var increment_rate = 75;
+
+		for(i = 0; i < window.innerWidth; i += increment_rate){
+			var r = s.rect(i,0,1,0);
+			backgroundLines.push(r);
+			r.attr({fill: "#efefef"});
+			r.animate({height: window.innerHeight}, 500+i*3);
+		}
+
+		for(i = 0; i < window.innerHeight; i += increment_rate){
+			var r = s.rect(0,i,0,1);
+			backgroundLines.push(r);
+			r.attr({fill: "#efefef"});
+			r.animate({width: window.innerWidth}, 500+i*3);
+		}
+
+		dragTab.remove();
+		dragTabext.remove();
+		mask1.remove();
+		mask2.remove();
+	
+		dragTab = s.rect(0,window.innerHeight/2-150,0,0);
+		dragTabext = s.rect(90, window.innerHeight/2-140,10, 280);
+		mask1 = s.circle(90, window.innerHeight/2-140,0);
+		mask2 = s.circle(90, window.innerHeight/2+140,0);
+
+		mask1.attr({fill: "#a8a8a8"});
+		mask2.attr({fill: "#a8a8a8"});
+		mask1.animate({x: 90, y: window.innerHeight/2-140, r: 10},300);
+		mask2.animate({x: 90, y: window.innerHeight/2+140, r: 10},300);
+
+		dragTab.attr({fill: "#a8a8a8"});
+		dragTabext.attr({fill: "#a8a8a8"});
+		dragTab.animate({x: 0, y: window.innerHeight/2-150, width: 90, height: 300},300);
+	}	
+
+	resize();
+
+</script>

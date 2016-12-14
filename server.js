@@ -21,7 +21,7 @@ function sendFile(res, filename, contentType) {
 function sendIndex(res) {
     var contentType = 'text/html', html = '';
 
-    html += indexPage.index(indexPage.setUpCanvas());
+    html += indexPage.index(indexPage.setUpSVG());
 
     res.writeHead(200, {'Content-type': contentType});
     res.end(html, 'utf-8');
@@ -41,10 +41,10 @@ var server = http.createServer (function (req, res) {
     switch( uri.pathname ) {
     case '/':
         sendIndex(res);
-        break
+        break;
     case '/index.html':
         sendIndex(res);
-        break
+        break;
     case '/style.css':
         sendFile(res, 'style.css', 'text/css');
         break;
@@ -60,7 +60,10 @@ var server = http.createServer (function (req, res) {
     case '/README.md':
         sendFile(res, 'readme.txt', 'text/plain');
         break;
-    default:
+		case '/node_modules/snap/dist/snap.svg-min.js':
+    	 	sendFile(res, 'node_modules/snap/dist/snap.svg-min.js', 'text/javascript');
+        break;
+		default:
         res.end('404 not found')
     }
 });

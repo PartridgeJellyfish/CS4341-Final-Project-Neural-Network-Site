@@ -4,6 +4,8 @@
  * Page Template code
  */
 
+var fs = require('fs');
+
 var indexHead = function () {
     var html = '\t<head>\n';
     html += '\t<title>Neural Network Builder</title>';
@@ -54,7 +56,7 @@ var signupForm = function() {
     html += '<button id="signup" name="signup" type="submit">Signup</button>';
     html += '</form>';
     return html;
-}
+};
 
 var setUpCanvas = function(){
   var html = '';
@@ -82,10 +84,15 @@ var setUpCanvas = function(){
   html += ' context.stroke();' + '\n'
   html += '}' + '\n'
   html += '</script>' + '\n'
-
   return html;
-}
+};
 
+var setUpSVG = function(){
+	var html = fs.readFileSync("builder.html", "utf-8");
+	return html;
+};
+
+console.log(setUpSVG());
 
 module.exports = {
     head : indexHead,
@@ -93,5 +100,6 @@ module.exports = {
     index : index,
     loginForm : loginForm,
     signupForm : signupForm,
-    setUpCanvas : setUpCanvas
+    setUpCanvas : setUpCanvas,
+		setUpSVG : setUpSVG
 };

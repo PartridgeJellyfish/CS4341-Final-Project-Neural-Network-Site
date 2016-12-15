@@ -1,597 +1,607 @@
 <html>
-    <head>
-    <title>Neural Network Builder</title>        <link rel="stylesheet" type="text/css" href="style.css"/>
-        <script type="text/javascript" src="scripts.js"></script>
-    </head>    <body>
-        <div id="content">
-<svg id="MainBoard" width="100%" height="100%" ></svg>
+<head>
+  <title>Neural Network Builder</title>        <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript" src="scripts.js"></script>
+</head>    <body>
+  <div id="content">
+    <svg id="MainBoard" width="100%" height="100%" ></svg>
 
-<script type="text/javascript" src="node_modules/snap/dist/snap.svg-min.js"></script>
-<script type="text/javascript" src="scripts.js"></script>
+    <script type="text/javascript" src="node_modules/snap/dist/snap.svg-min.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
 
-<style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    -webkit-animation-name: fadeIn; /* Fade in the background */
-    -webkit-animation-duration: 0.4s;
-    animation-name: fadeIn;
-    animation-duration: 0.4s
-}
+    <style>
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      -webkit-animation-name: fadeIn; /* Fade in the background */
+      -webkit-animation-duration: 0.4s;
+      animation-name: fadeIn;
+      animation-duration: 0.4s
+    }
 
-/* Modal Content */
-.modal-content {
-    position: fixed;
-    bottom: 0;
-    background-color: #fefefe;
-    width: 100%;
-    -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
-    animation-name: slideIn;
-    animation-duration: 0.4s
-}
+    /* Modal Content */
+    .modal-content {
+      position: fixed;
+      bottom: 0;
+      background-color: #fefefe;
+      width: 100%;
+      -webkit-animation-name: slideIn;
+      -webkit-animation-duration: 0.4s;
+      animation-name: slideIn;
+      animation-duration: 0.4s
+    }
 
-/* The Close Button */
-.close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+    /* The Close Button */
+    .close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-.modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
+    .modal-header {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+    }
 
-.modal-body {padding: 2px 16px;}
+    .modal-body {padding: 2px 16px;}
 
-.modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
+    .modal-footer {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+    }
 
-/* Add Animation */
-@-webkit-keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
-}
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+      from {bottom: -300px; opacity: 0}
+      to {bottom: 0; opacity: 1}
+    }
 
-@keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
-}
+    @keyframes slideIn {
+      from {bottom: -300px; opacity: 0}
+      to {bottom: 0; opacity: 1}
+    }
 
-@-webkit-keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
-}
+    @-webkit-keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
 
-@keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-</style>
+    @keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
+    </style>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="close">&times;</span>
-      <h2>Enter size</h2>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Enter size</h2>
+        </div>
+        <div class="modal-body">
+          <input id="size_setter" type="number" autofocus>
+        </div>
+        <div class="modal-footer">
+          <h3></h3>
+        </div>
+      </div>
+
     </div>
-    <div class="modal-body">
-  		<input id="size_setter" type="number" autofocus>
-    </div>
-    <div class="modal-footer">
-      <h3></h3>
-    </div>
-  </div>
 
-</div>
+    <script>
+    var modal = document.getElementById('myModal');
+    var svg = document.getElementById('MainBoard');
+    var connections = [];
 
-<script>
-	var modal = document.getElementById('myModal');
-	var svg = document.getElementById('MainBoard');
-	var connections = [];
+    var span = document.getElementsByClassName("close")[0];
 
-	var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
 
-	span.onclick = function() {
-    modal.style.display = "none";
-	}
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-    if (event.target == modal) {
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
         modal.style.display = "none";
+      }
     }
-	}
 
-	class GLayer {
-		constructor(graphics, numbutton, size, x, y, numberText){
-			this.graphics = graphics;
-			this.numbutton = numbutton;
-			this.size = size;
-			this.x = x;
-			this.y = y;
-			this.numberText = numberText;
-			this.inputs = new Map();
-			this.outputs = new Map();
-		}
-	}
-
-  class GLayerSaveable {
-		constructor(size, x, y, id){
-			this.size = size;
-			this.x = x;
-			this.y = y;
-      this.id = id;
-		}
-    get str(){
-      var code = '';
-      code += 'Layer L' + this.id + " = Layer(" + this.size + ");\n";
-      return code;
+    class GLayer {
+      constructor(graphics, numbutton, size, x, y, numberText){
+        this.graphics = graphics;
+        this.numbutton = numbutton;
+        this.size = size;
+        this.x = x;
+        this.y = y;
+        this.numberText = numberText;
+        this.inputs = new Map();
+        this.outputs = new Map();
+      }
     }
-	}
 
-	class Connection {
-		constructor(inputc, outputc, line){
-			this.inputc = inputc;
-			this.outputc = outputc;
-			this.line = line;
-			line.attr({
+    class GLayerSaveable {
+      constructor(size, x, y, id){
+        this.size = size;
+        this.x = x;
+        this.y = y;
+        this.id = id;
+      }
+      get str(){
+        var code = '';
+        code += 'Layer L' + this.id + " = Layer(" + this.size + ");\n";
+        return code;
+      }
+    }
+
+    class Connection {
+      constructor(inputc, outputc, line){
+        this.inputc = inputc;
+        this.outputc = outputc;
+        this.line = line;
+        line.attr({
           fill: "#ffffff",
-					'fill-opacity': 0,
+          'fill-opacity': 0,
           stroke: "#000000",
           strokeWidth: 3
-      });
-		}
-	}
-
-  class ConnectionSaveable {
-    constructor(inputid, outputid){
-      this.inputid = inputid;
-      this.outputid = outputid;
-    }
-    get str(){
-      var code = '';
-      code += "L"+this.inputid + ".linkInput(&L"+ this.outputid + ");\n";
-      return code;
-    }
-  }
-
-  function reconstruct(arr){
-    if(arr.length < 1) return;
-    if(arr[0].length < 1) return;
-    var ls = arr[0];
-    var cs = arr[1];
-
-    layer.graphics.remove();
-    graphToG.clear();
-
-    var rsdmap = new Map();
-
-    for(i = 0; i < ls.length; i++){
-      var lyr = generateLayer(ls[i].x, ls[i].y);
-      lyr.graphics.undrag();
-  		lyr.graphics.drag(move, start, stop2);
-      lyr.numbutton.drag(click_cb, click_cb, click_cb);
-      lyr.size = ls[i].size;
-      lyr.numberText.attr({text: lyr.size});
-      graphToG.set(lyr.graphics, lyr);
-      rsdmap.set(ls[i].id, lyr);
+        });
+      }
     }
 
-    for(i = 0; i < cs.length; i++){
-      var inputl = rsdmap.get(cs[i].inputid);
-      var outputl = rsdmap.get(cs[i].outputid);
-      var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
-      var cn = new Connection(inputl, outputl, line);
-      inputl.outputs.set(outputl, cn);
-      outputl.inputs.set(inputl, cn);
-      connections.push(cn);
+    class ConnectionSaveable {
+      constructor(inputid, outputid){
+        this.inputid = inputid;
+        this.outputid = outputid;
+      }
+      get str(){
+        var code = '';
+        code += "L"+this.inputid + ".linkInput(&L"+ this.outputid + ");\n";
+        return code;
+      }
     }
 
-  }
+    var s = Snap("#MainBoard");
+    var graphToG = new Map();
 
-	var connections = [];
+    var layer = generateLayer(0,0);
 
-	function generateCurveStr(x1, y1, x2, y2, dist){
-		var str = "M" + x1 + " " + y1 + "C" + (x1+dist) + " " + y1 + " " + (x1+(x2-x1)/2) + " " + (y1+(y2-y1)/2) + " ";
-		str += (x1+(x2-x1)/2) + " " + (y1+(y2-y1)/2) + "S" + (x2-dist) + " " + y2 + " " + x2 + " " + y2;
-		return str;
-	}
+    function reconstruct(arr){
+      if(arr.length < 1) return;
+      if(arr[0].length < 1) return;
+      var ls = arr[0];
+      var cs = arr[1];
 
-	var graphToG = new Map();
+      layer.graphics.remove();
+      graphToG.clear();
 
-	var s = Snap("#MainBoard");
-	window.addEventListener("resize", resize, false);
-	window.addEventListener("scroll", scroll, false);
+      var rsdmap = new Map();
 
-	var background = s.rect(0, 0, 0, 0);
-	var backgroundLines = [];
-
-	var dragTab = s.rect(0, 0, 0, 0);
-	var dragTabext = s.rect(0,0,0,0);
-	var mask1 = s.circle(0,0,0);
-	var mask2 = s.circle(0,0,0);
-
-	var layer = generateLayer(0,0);
-
-	function draw(){
-		background.attr({fill: "#005cf2"});
-		background.animate({width: 10000, height: 10000}, 1);
-
-		for(i = 0; i < backgroundLines.length; i++){
-			backgroundLines[i].remove();
-		}
-
-		backgroundLines = [];
-
-		var increment_rate = 75;
-		for(i = 0; i < 10000; i += increment_rate){
-			var r = s.rect(i,0,1,0);
-			backgroundLines.push(r);
-			r.attr({fill: "#efefef"});
-			r.animate({height: 10000}, 500+i*10);
-		}
-
-		for(i = 0; i < 10000; i += increment_rate){
-			var r = s.rect(0,i,0,1);
-			backgroundLines.push(r);
-			r.attr({fill: "#efefef"});
-			r.animate({width: 10000}, 500+i*10);
-		}
-
-		var temparr = [];
-		function logMapElements(value, key, map) {
-			temparr.push(value);
-		}
-
-		dragTab.remove();
-		dragTabext.remove();
-		mask1.remove();
-		mask2.remove();
-
-		dragTab = s.rect(0,window.innerHeight/2-150,0,0);
-		dragTabext = s.rect(90, window.innerHeight/2-140,10, 280);
-		mask1 = s.circle(90, window.innerHeight/2-140,0);
-		mask2 = s.circle(90, window.innerHeight/2+140,0);
-
-		mask1.attr({fill: "#4f4f4f"});
-		mask2.attr({fill: "#4f4f4f"});
-		mask1.animate({x: 90, y: window.innerHeight/2-140, r: 10},300);
-		mask2.animate({x: 90, y: window.innerHeight/2+140, r: 10},300);
-
-		dragTab.attr({fill: "#4f4f4f"});
-		dragTabext.attr({fill: "#4f4f4f"});
-		dragTab.animate({x: 0, y: window.innerHeight/2-150, width: 90, height: 300},300);
-
-		graphToG.delete(layer.graphics);
-		layer.graphics.remove();
-		layer = generateLayer(50, window.innerHeight/2);
-
-		var savebttnRect = s.rect(window.innerWidth - 400, window.innerHeight -100, 100, 50);
-	 	var savebttnText = s.text(window.innerWidth - 390, window.innerHeight -65, "Save");
-
-		var saveg = s.group(savebttnRect, savebttnText);
-
-		savebttnRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
-		savebttnText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue", 'font-size':30});
-
-		function save(){
-      var arr = [];
-  		function logMapElements3(value, key, map) {
-  			arr.push(value);
-  		}
-      graphToG.forEach(logMapElements3);
-
-      var glsmap = new Map();
-
-      var strarr = [];
-      for(i = 0; i < arr.length; i++){
-        strarr.push(new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i));
-        glsmap.set(arr[i], ""+i);
+      for(i = 0; i < ls.length; i++){
+        if(ls[i].x > 60){
+        var lyr = generateLayer(ls[i].x, ls[i].y);
+        lyr.graphics.undrag();
+        lyr.graphics.drag(move, start, stop2);
+        lyr.numbutton.drag(click_cb, click_cb, click_cb);
+        lyr.size = ls[i].size;
+        lyr.numberText.attr({text: lyr.size});
+        graphToG.set(lyr.graphics, lyr);
+        rsdmap.set(ls[i].id, lyr);
+      }
       }
 
-      var connarr = [];
-      for(i = 0; i < connections.length; i++){
-        connarr.push(new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)));
+      for(i = 0; i < cs.length; i++){
+        var inputl = rsdmap.get(cs[i].inputid);
+        var outputl = rsdmap.get(cs[i].outputid);
+        var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
+        var cn = new Connection(inputl, outputl, line);
+        inputl.outputs.set(outputl, cn);
+        outputl.inputs.set(inputl, cn);
+        connections.push(cn);
       }
 
-      var tostra = [];
-      tostra.push(strarr, connarr);
+      layer = generateLayer(50, window.innerHeight/2);
 
-            buttonSaveClicked(JSON.stringify(tostra));
+    }
+
+    var connections = [];
+
+    function generateCurveStr(x1, y1, x2, y2, dist){
+      var str = "M" + x1 + " " + y1 + "C" + (x1+dist) + " " + y1 + " " + (x1+(x2-x1)/2) + " " + (y1+(y2-y1)/2) + " ";
+      str += (x1+(x2-x1)/2) + " " + (y1+(y2-y1)/2) + "S" + (x2-dist) + " " + y2 + " " + x2 + " " + y2;
+      return str;
+    }
 
 
-		}
 
-		saveg.drag(mt, mt, save);
 
-		var genbttnRect = s.rect(window.innerWidth - 250, window.innerHeight -100, 150, 50);
-	 	var genbttnText = s.text(window.innerWidth - 240, window.innerHeight -65, "Generate");
+    window.addEventListener("resize", resize, false);
+    window.addEventListener("scroll", scroll, false);
 
-		var geng = s.group(genbttnRect, genbttnText);
+    var background = s.rect(0, 0, 0, 0);
+    var backgroundLines = [];
 
-		genbttnRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
-		genbttnText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue", 'font-size':30});
+    var dragTab = s.rect(0, 0, 0, 0);
+    var dragTabext = s.rect(0,0,0,0);
+    var mask1 = s.circle(0,0,0);
+    var mask2 = s.circle(0,0,0);
 
-		function strMapToObj(strMap) {
+
+
+    function draw(){
+      background.attr({fill: "#005cf2"});
+      background.animate({width: 10000, height: 10000}, 1);
+
+      for(i = 0; i < backgroundLines.length; i++){
+        backgroundLines[i].remove();
+      }
+
+      backgroundLines = [];
+
+      var increment_rate = 75;
+      for(i = 0; i < 10000; i += increment_rate){
+        var r = s.rect(i,0,1,0);
+        backgroundLines.push(r);
+        r.attr({fill: "#efefef"});
+        r.animate({height: 10000}, 500+i*10);
+      }
+
+      for(i = 0; i < 10000; i += increment_rate){
+        var r = s.rect(0,i,0,1);
+        backgroundLines.push(r);
+        r.attr({fill: "#efefef"});
+        r.animate({width: 10000}, 500+i*10);
+      }
+
+      var temparr = [];
+      function logMapElements(value, key, map) {
+        temparr.push(value);
+      }
+
+      dragTab.remove();
+      dragTabext.remove();
+      mask1.remove();
+      mask2.remove();
+
+      dragTab = s.rect(0,window.innerHeight/2-150,0,0);
+      dragTabext = s.rect(90, window.innerHeight/2-140,10, 280);
+      mask1 = s.circle(90, window.innerHeight/2-140,0);
+      mask2 = s.circle(90, window.innerHeight/2+140,0);
+
+      mask1.attr({fill: "#4f4f4f"});
+      mask2.attr({fill: "#4f4f4f"});
+      mask1.animate({x: 90, y: window.innerHeight/2-140, r: 10},300);
+      mask2.animate({x: 90, y: window.innerHeight/2+140, r: 10},300);
+
+      dragTab.attr({fill: "#4f4f4f"});
+      dragTabext.attr({fill: "#4f4f4f"});
+      dragTab.animate({x: 0, y: window.innerHeight/2-150, width: 90, height: 300},300);
+
+      graphToG.delete(layer.graphics);
+      layer.graphics.remove();
+      layer = generateLayer(50, window.innerHeight/2);
+
+      var savebttnRect = s.rect(window.innerWidth - 400, window.innerHeight -100, 100, 50);
+      var savebttnText = s.text(window.innerWidth - 390, window.innerHeight -65, "Save");
+
+      var saveg = s.group(savebttnRect, savebttnText);
+
+      savebttnRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
+      savebttnText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue", 'font-size':30});
+
+      function save(){
+        var arr = [];
+        function logMapElements3(value, key, map) {
+          arr.push(value);
+        }
+        graphToG.forEach(logMapElements3);
+
+        var glsmap = new Map();
+
+        var strarr = [];
+        for(i = 0; i < arr.length; i++){
+          strarr.push(new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i));
+          glsmap.set(arr[i], ""+i);
+        }
+
+        var connarr = [];
+        for(i = 0; i < connections.length; i++){
+          connarr.push(new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)));
+        }
+
+        var tostra = [];
+        tostra.push(strarr, connarr);
+
+        buttonSaveClicked(JSON.stringify(tostra));
+
+
+      }
+
+      saveg.drag(mt, mt, save);
+
+      var genbttnRect = s.rect(window.innerWidth - 250, window.innerHeight -100, 150, 50);
+      var genbttnText = s.text(window.innerWidth - 240, window.innerHeight -65, "Generate");
+
+      var geng = s.group(genbttnRect, genbttnText);
+
+      genbttnRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
+      genbttnText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue", 'font-size':30});
+
+      function strMapToObj(strMap) {
         let obj = Object.create(null);
         for (let [k,v] of strMap) {
-            // We don’t escape the key '__proto__'
-            // which can cause problems on older engines
-            obj[k] = v;
+          // We don’t escape the key '__proto__'
+          // which can cause problems on older engines
+          obj[k] = v;
         }
         return obj;
-    }
-    function objToStrMap(obj) {
+      }
+      function objToStrMap(obj) {
         let strMap = new Map();
         for (let k of Object.keys(obj)) {
-            strMap.set(k, obj[k]);
+          strMap.set(k, obj[k]);
         }
         return strMap;
+      }
+
+      function generate(){
+        var arr = [];
+        function logMapElements3(value, key, map) {
+          arr.push(value);
+        }
+        graphToG.forEach(logMapElements3);
+
+        var glsmap = new Map();
+
+        var printstr = "";
+        var strarr = [];
+        for(i = 0; i < arr.length; i++){
+          strarr.push(new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i));
+          glsmap.set(arr[i], ""+i);
+          printstr += new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i).str;
+        }
+
+        var connarr = [];
+        for(i = 0; i < connections.length; i++){
+          connarr.push(new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)));
+          printstr += new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)).str;
+        }
+
+        var tostra = [];
+        tostra.push(strarr, connarr);
+
+        alert(printstr);
+      }
+
+      geng.drag(mt, mt, generate);
+
     }
 
-		function generate(){
+    function resize(){
+      layer.graphics.attr({
+        transform: layer.graphics.data('origTransform') + (layer.graphics.data('origTransform') ? "T" : "t") + [window.screenX, window.screenY]
+      });
+      var l = layer.graphics
+      var bb = layer.graphics.getBBox();
+      l.x = bb.cx;
+      l.y = bb.cy;
+    }
+
+    function scroll(e){
+      layer.graphics.attr({
+        transform: layer.graphics.data('origTransform') + (layer.graphics.data('origTransform') ? "T" : "t") + [window.screenX, window.screenY]
+      });
+      var l = layer.graphics
+      var bb = layer.graphics.getBBox();
+      l.x = bb.cx;
+      l.y = bb.cy;
+    }
+
+    var move = function(dx,dy) {
+      this.attr({
+        transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
+      });
+      var l = graphToG.get(this);
+      var bb = this.getBBox();
+      l.x = bb.cx;
+      l.y = bb.cy;
       var arr = [];
-  		function logMapElements3(value, key, map) {
-  			arr.push(value);
-  		}
-      graphToG.forEach(logMapElements3);
-
-      var glsmap = new Map();
-
-      var printstr = "";
-      var strarr = [];
+      function logMapElements(value, key, map) {
+        arr.push(value);
+      }
+      l.inputs.forEach(logMapElements);
+      l.outputs.forEach(logMapElements);
       for(i = 0; i < arr.length; i++){
-        strarr.push(new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i));
-        glsmap.set(arr[i], ""+i);
-        printstr += new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i).str;
+        arr[i].line.remove();
       }
-
-      var connarr = [];
-      for(i = 0; i < connections.length; i++){
-        connarr.push(new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)));
-        printstr += new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)).str;
-      }
-
-      var tostra = [];
-      tostra.push(strarr, connarr);
-
-      alert(printstr);
-		}
-
-		geng.drag(mt, mt, generate);
-
-	}
-
-	function resize(){
-		layer.graphics.attr({
-  		transform: layer.graphics.data('origTransform') + (layer.graphics.data('origTransform') ? "T" : "t") + [window.screenX, window.screenY]
-    });
-		var l = layer.graphics
-		var bb = layer.graphics.getBBox();
-		l.x = bb.cx;
-		l.y = bb.cy;
-	}
-
-	function scroll(e){
-		layer.graphics.attr({
-  		transform: layer.graphics.data('origTransform') + (layer.graphics.data('origTransform') ? "T" : "t") + [window.screenX, window.screenY]
-    });
-		var l = layer.graphics
-		var bb = layer.graphics.getBBox();
-		l.x = bb.cx;
-		l.y = bb.cy;
-	}
-
-	var move = function(dx,dy) {
-  	this.attr({
-  		transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
-    });
-		var l = graphToG.get(this);
-		var bb = this.getBBox();
-		l.x = bb.cx;
-		l.y = bb.cy;
-		var arr = [];
-		function logMapElements(value, key, map) {
-			arr.push(value);
-		}
-		l.inputs.forEach(logMapElements);
-		l.outputs.forEach(logMapElements);
-		for(i = 0; i < arr.length; i++){
-			arr[i].line.remove();
-		}
-		for(i = 0; i < arr.length; i++){
-			arr[i].line = s.path(generateCurveStr(arr[i].outputc.x+30, arr[i].outputc.y+10, arr[i].inputc.x-30, arr[i].inputc.y+10, 50));
-			arr[i].line.attr({
+      for(i = 0; i < arr.length; i++){
+        arr[i].line = s.path(generateCurveStr(arr[i].outputc.x+30, arr[i].outputc.y+10, arr[i].inputc.x-30, arr[i].inputc.y+10, 50));
+        arr[i].line.attr({
           fill: "#ffffff",
-					'fill-opacity': 0,
+          'fill-opacity': 0,
           stroke: "#000000",
           strokeWidth: 3
-      });
-		}
-	}
+        });
+      }
+    }
 
-	var start = function() {
-  	this.data('origTransform', this.transform().local );
-	};
+    var start = function() {
+      this.data('origTransform', this.transform().local );
+    };
 
-	var stop2 = function() {
-  	console.log('finished dragging');
+    var stop2 = function() {
+      console.log('finished dragging');
 
-	};
+    };
 
-	var stop1 = function() {
-  	console.log('finished dragging');
-		layer.graphics.undrag();
-		layer.graphics.drag(move, start, stop2);
-    layer.numbutton.drag(click_cb, click_cb, click_cb);
-		console.log(layer.x);
-		if(layer.x < 100){
-			graphToG.delete(layer.graphics);
-			layer.graphics.remove();
-		}
-		layer = generateLayer(50, window.innerHeight/2);
-	};
+    var stop1 = function() {
+      console.log('finished dragging');
+      layer.graphics.undrag();
+      layer.graphics.drag(move, start, stop2);
+      layer.numbutton.drag(click_cb, click_cb, click_cb);
+      console.log(layer.x);
+      if(layer.x < 100){
+        graphToG.delete(layer.graphics);
+        layer.graphics.remove();
+      }
+      layer = generateLayer(50, window.innerHeight/2);
+    };
 
-	var to_be_resized;
+    var to_be_resized;
 
-	var click_cb = function() {
-		modal.style.display = "block";
-		document.getElementById("size_setter").value = graphToG.get(this.parent()).size;
-		to_be_resized = graphToG.get(this.parent());
-	};
+    var click_cb = function() {
+      modal.style.display = "block";
+      document.getElementById("size_setter").value = graphToG.get(this.parent()).size;
+      to_be_resized = graphToG.get(this.parent());
+    };
 
-	document.getElementById("size_setter").addEventListener("change", function(){
-		to_be_resized.size = document.getElementById("size_setter").value;
-		to_be_resized.numberText.attr({text: to_be_resized.size});
-	});
+    document.getElementById("size_setter").addEventListener("change", function(){
+      to_be_resized.size = document.getElementById("size_setter").value;
+      to_be_resized.numberText.attr({text: to_be_resized.size});
+    });
 
-	var firstClicked = false;
-	var firstWasIn = false;
-	var inputl;
-	var outputl;
+    var firstClicked = false;
+    var firstWasIn = false;
+    var inputl;
+    var outputl;
 
-	var fc1;
-	var fc2;
+    var fc1;
+    var fc2;
 
-	var connectfi = function(){
-		if(firstClicked){
-			inputl = graphToG.get(this.parent());
+    var connectfi = function(){
+      if(firstClicked){
+        inputl = graphToG.get(this.parent());
 
-			if(firstWasIn){
-				fc1.attr({fill: "#8f8f8f"});
-			}else{
-				if(inputl.outputs.has(outputl)){
-					connections.delete(inputl.outputs.get(outputl));
-					inputl.outputs.get(outputl).line.remove();
-					inputl.outputs.delete(outputl);
-					outputl.inputs.delete(inputl);
-				}else{
-					var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
-					var cn = new Connection(inputl, outputl, line);
-					inputl.outputs.set(outputl, cn);
-					outputl.inputs.set(inputl, cn);
-					connections.push(cn);
-				}
-				fc2.attr({fill: "#8f8f8f"});
-			}
+        if(firstWasIn){
+          fc1.attr({fill: "#8f8f8f"});
+        }else{
+          if(inputl.outputs.has(outputl)){
+            connections.delete(inputl.outputs.get(outputl));
+            inputl.outputs.get(outputl).line.remove();
+            inputl.outputs.delete(outputl);
+            outputl.inputs.delete(inputl);
+          }else{
+            var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
+            var cn = new Connection(inputl, outputl, line);
+            inputl.outputs.set(outputl, cn);
+            outputl.inputs.set(inputl, cn);
+            connections.push(cn);
+          }
+          fc2.attr({fill: "#8f8f8f"});
+        }
 
-			fc1 = this;
-			fc1.attr({fill: "#8f8f8f"});
-			firstClicked = false;
-		}else{
-			fc1 = this;
-			inputl = graphToG.get(this.parent());
-			this.attr({fill: "#0f8f8f"});
-			firstClicked = true;
-			firstWasIn = true;
-		}
-	}
+        fc1 = this;
+        fc1.attr({fill: "#8f8f8f"});
+        firstClicked = false;
+      }else{
+        fc1 = this;
+        inputl = graphToG.get(this.parent());
+        this.attr({fill: "#0f8f8f"});
+        firstClicked = true;
+        firstWasIn = true;
+      }
+    }
 
-	var connectfo = function(){
-		if(firstClicked){
-			outputl = graphToG.get(this.parent());
+    var connectfo = function(){
+      if(firstClicked){
+        outputl = graphToG.get(this.parent());
 
-			if(firstWasIn){
-				if(inputl.outputs.has(outputl)){
-					connections.delete(inputl.outputs.get(outputl));
-					inputl.outputs.get(outputl).line.remove();
-					inputl.outputs.delete(outputl);
-					outputl.inputs.delete(inputl);
-				}else{
-					var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
-					var cn = new Connection(inputl, outputl, line);
-					inputl.outputs.set(outputl, cn);
-					outputl.inputs.set(inputl, cn);
-					connections.push(cn);
-				}
-				fc1.attr({fill: "#8f8f8f"});
-			}else{
-				fc2.attr({fill: "#8f8f8f"});
-			}
+        if(firstWasIn){
+          if(inputl.outputs.has(outputl)){
+            connections.delete(inputl.outputs.get(outputl));
+            inputl.outputs.get(outputl).line.remove();
+            inputl.outputs.delete(outputl);
+            outputl.inputs.delete(inputl);
+          }else{
+            var line = s.path(generateCurveStr(outputl.x+30, outputl.y+10, inputl.x-30, inputl.y+10, 50));
+            var cn = new Connection(inputl, outputl, line);
+            inputl.outputs.set(outputl, cn);
+            outputl.inputs.set(inputl, cn);
+            connections.push(cn);
+          }
+          fc1.attr({fill: "#8f8f8f"});
+        }else{
+          fc2.attr({fill: "#8f8f8f"});
+        }
 
-			fc2 = this;
-			fc2.attr({fill: "#8f8f8f"});
-			firstClicked = false;
-		}else{
-			fc2 = this;
-			outputl = graphToG.get(this.parent());
-			this.attr({fill: "#0f8f8f"});
-			firstClicked = true;
-			firstWasIn = false;
-		}
-	}
+        fc2 = this;
+        fc2.attr({fill: "#8f8f8f"});
+        firstClicked = false;
+      }else{
+        fc2 = this;
+        outputl = graphToG.get(this.parent());
+        this.attr({fill: "#0f8f8f"});
+        firstClicked = true;
+        firstWasIn = false;
+      }
+    }
 
-	var mt = function(){
+    var mt = function(){
 
-	}
+    }
 
-	function generateLayer(x, y){
-		var mainRect = s.rect(x-40, y-90, 80, 180);
-	 	var circ1 = s.circle(x-30, y-90, 10);
-		var circ2 = s.circle(x-30, y+90, 10);
-		var circ3 = s.circle(x+30, y-90, 10);
-		var circ4 = s.circle(x+30, y+90, 10);
-		var mainRect2 = s.rect(x-30, y-100, 60, 200);
+    function generateLayer(x, y){
+      var mainRect = s.rect(x-40, y-90, 80, 180);
+      var circ1 = s.circle(x-30, y-90, 10);
+      var circ2 = s.circle(x-30, y+90, 10);
+      var circ3 = s.circle(x+30, y-90, 10);
+      var circ4 = s.circle(x+30, y+90, 10);
+      var mainRect2 = s.rect(x-30, y-100, 60, 200);
 
-		var numberIconRect = s.rect(x-10, y+10+60, 20, 20);
-	 	var numberIconText = s.text(x-5, y+25+60, "#");
-		var numberText = s.text(x+7, y+25+30, 100);
-		var matrix = new Snap.Matrix();
-		matrix.rotate(-90, x+7, y+25+30);
-		numberText.attr({transform: matrix, 'font-family': "Helvetica Neue", 'font-size': 20});
-		var numbutton = s.group(numberIconRect, numberIconText, numberText);
+      var numberIconRect = s.rect(x-10, y+10+60, 20, 20);
+      var numberIconText = s.text(x-5, y+25+60, "#");
+      var numberText = s.text(x+7, y+25+30, 100);
+      var matrix = new Snap.Matrix();
+      matrix.rotate(-90, x+7, y+25+30);
+      numberText.attr({transform: matrix, 'font-family': "Helvetica Neue", 'font-size': 20});
+      var numbutton = s.group(numberIconRect, numberIconText, numberText);
 
-		var inputRect = s.rect(x-40, y, 20, 20);
-		var outputRect = s.rect(x+20, y, 20, 20);
+      var inputRect = s.rect(x-40, y, 20, 20);
+      var outputRect = s.rect(x+20, y, 20, 20);
 
-		var mainGroup = s.group(mainRect, circ1, circ2, circ3, circ4, mainRect2, numbutton, inputRect, outputRect);
-		mainGroup.attr({fill: "#23c43b"});
-		numberIconRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
-		numberIconText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue"});
-		numberText.attr({fill: "#000000"});
-		var l = new GLayer(mainGroup, numbutton, 100, x, y, numberText);
+      var mainGroup = s.group(mainRect, circ1, circ2, circ3, circ4, mainRect2, numbutton, inputRect, outputRect);
+      mainGroup.attr({fill: "#23c43b"});
+      numberIconRect.attr({fill: "#4f4f4f", stroke: "#ffffff", strokeWidth: 1});
+      numberIconText.attr({fill: "#ffffff", 'font-family': "Helvetica Neue"});
+      numberText.attr({fill: "#000000"});
+      var l = new GLayer(mainGroup, numbutton, 100, x, y, numberText);
 
-		inputRect.attr({fill: "#8f8f8f", stroke: "#000000", strokeWidth: 1});
-		outputRect.attr({fill: "#8f8f8f", stroke: "#000000", strokeWidth: 1});
+      inputRect.attr({fill: "#8f8f8f", stroke: "#000000", strokeWidth: 1});
+      outputRect.attr({fill: "#8f8f8f", stroke: "#000000", strokeWidth: 1});
 
-		inputRect.drag(mt, mt , connectfi);
-		outputRect.drag(mt, mt, connectfo);
+      inputRect.drag(mt, mt , connectfi);
+      outputRect.drag(mt, mt, connectfo);
 
-		mainGroup.drag(move, start, stop1);
-		graphToG.set(mainGroup, l);
-		return l;
-	}
+      mainGroup.drag(move, start, stop1);
+      graphToG.set(mainGroup, l);
+      return l;
+    }
 
-	draw();
+
 
     netReload();
-</script>
-            </div>
-    </body>
+    draw();
+    </script>
+  </div>
+</body>
 </html>

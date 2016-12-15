@@ -7,7 +7,7 @@
 window.onload = function(e) {
     if(document.getElementById("login")) // on login page
         setupLoginPage();
-    
+
 }
 function setupLoginPage() {
     document.getElementById("loginButton").onclick = login;
@@ -100,7 +100,7 @@ function login() {
     var userName = document.getElementById("loginUserName").value;
     var pass = document.getElementById("loginPassword").value;
     var postData = 'userName=' + userName + '&password=' + pass;
-    
+
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleLogin;
     httpRequest.open('POST', "login");
@@ -124,7 +124,7 @@ function buttonEditClicked(e) {
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleEdit;
     httpRequest.open('POST', "edit");
-    httpRequest.send(postData); 
+    httpRequest.send(postData);
 }
 
 function handleEdit(e) {
@@ -153,7 +153,7 @@ function buttonRemoveClicked(e) {
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleRemove;
     httpRequest.open('POST', "remove");
-    httpRequest.send(postData); 
+    httpRequest.send(postData);
 }
 
 function handleRemove(e) {
@@ -183,13 +183,14 @@ function buttonSaveClicked(content) {
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleSave;
     httpRequest.open('POST', "save");
-    httpRequest.send(postData); 
+    httpRequest.send(postData);
 }
 
 function handleSave(e) {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
             console.log("Saved");
+
             window.location = "/";
         }
     }
@@ -211,7 +212,7 @@ function buttonExportClicked(e) {
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleExport;
     httpRequest.open('POST', "export");
-    httpRequest.send(postData); 
+    httpRequest.send(postData);
 }
 
 function handleExport(e) {

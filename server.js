@@ -198,7 +198,8 @@ function handleEdit(req, res) {
             var POST = qs.parse(body);
             var name = POST.networkName;
             console.log("Edit: " + name);
-            // TODO load network
+            res.writeHead(200, { 'Set-Cookie': ['network=' + name] });
+            res.end("/builder");
         });
                    
     }
@@ -228,7 +229,8 @@ function handleRemove(req, res) {
             var user = parseCookie(req).user;
             
             db.run('DELETE FROM networks WHERE network = ? AND username = ?', name, user);
-            
+            fs.unlinkSync("./" + user + "/" + name);
+            showNetworkMenu(req, res);
         });
                    
     }
@@ -280,7 +282,13 @@ function handleNewNet(req, res) {
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.netName;
+            var user = parseCookie(req).user;
             // TODO add to db and save a default obj
+            db.run("INSERT INTO networks VALUES ('" + user + "', '" + name + "')");
+            var defa = fs.readFileSync('default.json', 'utf8').toString()
+            fs.writeFileSync(name, defa);
+            res.writeHead(200, { 'Set-Cookie': ['network=' + name] });
+            res.end("/builder");
         });
     }
     else {
@@ -289,9 +297,62 @@ function handleNewNet(req, res) {
 }
 
 function loadNetwork(req, res) {
-    
+    var user = parseCookie(req).user;
+    var netName = parseCookie(req).network;
+
 }
 
+function save(req, res) {
+    if (req.method === 'POST') {
+        var body = '';
+        
+        req.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                req.connection.destroy();
+            }
+        });
+        
+        req.on('end', function () {
+            var POST = qs.parse(body);
+            var strData = POST.strData;
+            var netName = parseCookie(req).network;
+            fs.writeFileSync(netName, strData);
+            res.end('gg');
+        });
+    }
+    else {
+        res.end('404 not found');
+    }
+}
+
+function handleSendNet(req, res) {
+    if (req.method === 'POST') {
+        var body = '';
+        
+        req.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                req.connection.destroy();
+            }
+        });
+        
+        req.on('end', function () {
+            var POST = qs.parse(body);
+            var strData = POST.strData;
+            var netName = parseCookie(req).network;
+            var tex = fs.readFileSync(netName, strData);
+            res.end(tex);
+        });
+    }
+    else {
+        res.end('404 not found');
+    }
+}
 
 // server
 var server = http.createServer (function (req, res) {
@@ -330,6 +391,18 @@ var server = http.createServer (function (req, res) {
         break;
     case '/newNet':
         handleNewNet(req, res);
+        break;
+    case '/save':
+        save(req, res);
+        break;
+    case '/getNetwork':
+        handleSendNet(req, res);
+        break;
+    case '/builder':
+        sendFile(res, 'builder.html', 'text/html');
+        break;
+    case '/node_modules/snap/dist/snap.svg-min.js':
+        sendFile(res, 'node_modules/snapsvg/dist/snap.svg.js', 'text/javascript');
         break;
     default:
         res.end('404 not found')

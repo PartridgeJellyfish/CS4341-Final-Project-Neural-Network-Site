@@ -40,11 +40,28 @@ function signup() {
     httpRequest.send(postData);
 }
 
+function handleReload(e){
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            var tex = httpRequest.responseText;
+            var a = JSON.parse(tex);
+            reconstruct(a);
+        }
+    }
+}
+
+function netReload(){
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleReload;
+    httpRequest.open('POST', "getNetwork");
+    httpRequest.send();
+}
+
 function handleNewNet() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-            updateContents(httpRequest.responseText);
-            // TODO do what now
+            console.log(httpRequest.responseText);
+            window.location = httpRequest.responseText;
         }
     }
 }
@@ -91,6 +108,7 @@ function login() {
 }
 
 
+
 // edit
 
 function attachEditEventHandler() {
@@ -112,11 +130,12 @@ function buttonEditClicked(e) {
 function handleEdit(e) {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-            updateContents(httpRequest.responseText);
+            window.location = httpRequest.responseText;
 
         }
     }
 }
+
 
 
 // remove
@@ -141,23 +160,25 @@ function handleRemove(e) {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
             updateContents(httpRequest.responseText);
-
+            attachEditEventHandler();
+            attachExportEventHandler();
+            attachRemoveEventHandler();
+            document.getElementById("newNetworkButton").onclick = newNetwork;
         }
     }
 }
 
 
 // saved
-/*
+
 function attachSaveEventHandler() {
    var list = document.getElementsByClassName("glyphicon-floppy-saved");
-    for(int i = 0; i < list.length; i++)
+    for(var i = 0; i < list.length; i++)
         list[0].onclick = buttonSaveClicked;
 }
 
-function buttonSaveClicked(e) {
-    networkName = e.currentTarget.parentElement.parentElement.firstChild.innerText;
-    var postData = 'networkName=' + networkName;
+function buttonSaveClicked(content) {
+    var postData = 'strData=' + content;
 
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleSave;
@@ -168,12 +189,12 @@ function buttonSaveClicked(e) {
 function handleSave(e) {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-            updateContents(httpRequest.responseText);
-
+            console.log("Saved");
+            window.location = "/";
         }
     }
 }
-*/
+
 
 // export
 

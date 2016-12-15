@@ -229,7 +229,7 @@ function handleRemove(req, res) {
             var user = parseCookie(req).user;
 
             db.run('DELETE FROM networks WHERE network = ? AND username = ?', name, user);
-            fs.unlinkSync("./" + user + "/" + name);
+            fs.unlinkSync(name);
             showNetworkMenu(req, res);
         });
 

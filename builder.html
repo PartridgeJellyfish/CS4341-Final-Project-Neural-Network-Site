@@ -197,6 +197,7 @@
       var cn = new Connection(inputl, outputl, line);
       inputl.outputs.set(outputl, cn);
       outputl.inputs.set(inputl, cn);
+      connections.push(cn);
     }
 
   }
@@ -308,9 +309,9 @@
 
       var tostra = [];
       tostra.push(strarr, connarr);
-            
+
             buttonSaveClicked(JSON.stringify(tostra));
-            
+
 
 		}
 
@@ -549,7 +550,7 @@
 	}
 
 	draw();
-    
+
     netReload();
 </script>
             </div>

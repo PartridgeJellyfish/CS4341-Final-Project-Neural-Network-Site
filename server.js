@@ -24,9 +24,9 @@ function sendFile(res, filename, contentType) {
 
 function sendIndex(res) {
     var contentType = 'text/html', html = '';
-    
+
     html += indexPage.index(indexPage.frontPage());
-    
+
     res.writeHead(200, {'Content-type': contentType});
     res.end(html, 'utf-8');
 }
@@ -53,7 +53,7 @@ function parseCookie(req) {
 function handleLoginQuery(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -62,19 +62,19 @@ function handleLoginQuery(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var userName = POST.userName;
             var password = POST.password;
-            
+
             db.get('SELECT username, password, email, salt FROM users WHERE username = ?', userName, function(err, row) {
-                if (!row) 
+                if (!row)
                     return handleLogin(req, res, POST, false);
                 return handleLogin(req, res, POST, row);
             });
         });
-                   
+
     }
     else {
         res.end('404 not found');
@@ -83,7 +83,7 @@ function handleLoginQuery(req, res) {
 
 function handleLogin(req, res, post, row) {
     var hashedPass = '';
-    
+
     if(row) { // user found
         hashedPass = hashPassword(post.password, row.salt);
         if(hashedPass == row.password) {
@@ -109,7 +109,7 @@ function failedLogin(req, res) {
 function handleSignupQuery(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -118,15 +118,15 @@ function handleSignupQuery(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var userName = POST.userName;
             var password = POST.password;
             var email = POST.email;
-            
+
             // TODO find better way to tell user without replacing the whole form
-            
+
             // check if valid username, password and email
             if(userName.length < 3) { // must be at least 3 characters
                 return failedSignup(req, res, "Invalid username");
@@ -146,7 +146,7 @@ function handleSignupQuery(req, res) {
                 return failedSignup(req, res, "User exists");
             });
         });
-                   
+
     }
     else {
         res.end('404 not found');
@@ -184,7 +184,7 @@ function showNetworkMenu(req, res) {
 function handleEdit(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -193,7 +193,7 @@ function handleEdit(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.networkName;
@@ -201,19 +201,19 @@ function handleEdit(req, res) {
             res.writeHead(200, { 'Set-Cookie': ['network=' + name] });
             res.end("/builder");
         });
-                   
+
     }
     else {
         res.end('404 not found');
     }
 }
 
-// remove 
+// remove
 
 function handleRemove(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -222,17 +222,17 @@ function handleRemove(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.networkName;
             var user = parseCookie(req).user;
-            
+
             db.run('DELETE FROM networks WHERE network = ? AND username = ?', name, user);
             fs.unlinkSync("./" + user + "/" + name);
             showNetworkMenu(req, res);
         });
-                   
+
     }
     else {
         res.end('404 not found');
@@ -244,7 +244,7 @@ function handleRemove(req, res) {
 function handleExport(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -253,13 +253,13 @@ function handleExport(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.networkName;
             console.log("Export: " + name);
         });
-                   
+
     }
     else {
         res.end('404 not found');
@@ -269,7 +269,7 @@ function handleExport(req, res) {
 function handleNewNet(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -278,7 +278,7 @@ function handleNewNet(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.netName;
@@ -305,7 +305,7 @@ function loadNetwork(req, res) {
 function save(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -314,7 +314,7 @@ function save(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var strData = POST.strData;
@@ -331,7 +331,7 @@ function save(req, res) {
 function handleSendNet(req, res) {
     if (req.method === 'POST') {
         var body = '';
-        
+
         req.on('data', function (data) {
             body += data;
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
@@ -340,7 +340,7 @@ function handleSendNet(req, res) {
                 req.connection.destroy();
             }
         });
-        
+
         req.on('end', function () {
             var POST = qs.parse(body);
             var strData = POST.strData;
@@ -411,5 +411,3 @@ var server = http.createServer (function (req, res) {
 
 server.listen(process.env.PORT || port);
 console.log('listening on 8080');
-
-

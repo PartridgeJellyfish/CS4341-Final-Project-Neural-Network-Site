@@ -198,6 +198,7 @@ function handleEdit(req, res) {
             var POST = qs.parse(body);
             var name = POST.networkName;
             console.log("Edit: " + name);
+            // TODO load network
         });
                    
     }
@@ -224,7 +225,10 @@ function handleRemove(req, res) {
         req.on('end', function () {
             var POST = qs.parse(body);
             var name = POST.networkName;
-            console.log("Remove: " + name);
+            var user = parseCookie(req).user;
+            
+            db.run('DELETE FROM networks WHERE network = ? AND username = ?', name, user);
+            
         });
                    
     }

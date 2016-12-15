@@ -97,7 +97,7 @@ function handleLogin(req, res, post, row) {
 
 function successfulLogin(req, res, user) {
     res.writeHead(200, { 'Set-Cookie': ['user=' + user] }); // TODO come up with a better cookie
-    res.end("Logged in", 'utf-8'); // security flaws in just setting a user= cookie, research session ids
+    showNetworkMenu(req, res); // security flaws in just setting a user= cookie, research session ids
 }
 
 function failedLogin(req, res) {
@@ -166,6 +166,17 @@ function failedSignup(req, res, msg) {
     var contentType = 'text/html';
     res.writeHead(200, {'Content-type': contentType});
     res.end('<div id="error">' + msg + '</div>' + indexPage.signupForm(), 'utf-8');
+}
+
+function showNetworkMenu(req, res) {
+    var contentType = 'text/html';
+    var user = parseCookie(req).user;
+    var names = [];
+    db.each('SELECT network FROM networks WHERE username = ?', user, function(err, row) {
+        names.push(row.network);
+    }, function(err, cntx) {
+        res.end(indexPage.generateTable(names), 'utf-8'); // TODO writehead?
+    })
 }
 
 // server

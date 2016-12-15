@@ -194,6 +194,9 @@
 
     for(i = 0; i < ls.length; i++){
       var lyr = generateLayer(ls[i].x, ls[i].y);
+      lyr.graphics.undrag();
+  		lyr.graphics.drag(move, start, stop2);
+      lyr.numbutton.drag(click_cb, click_cb, click_cb);
       lyr.size = ls[i].size;
       lyr.numberText.attr({text: lyr.size});
       graphToG.set(lyr.graphics, lyr);
@@ -439,13 +442,14 @@
 
 	var stop2 = function() {
   	console.log('finished dragging');
-		graphToG.get(this).numbutton.drag(click_cb, click_cb, click_cb);
+
 	};
 
 	var stop1 = function() {
   	console.log('finished dragging');
 		layer.graphics.undrag();
 		layer.graphics.drag(move, start, stop2);
+    layer.numbutton.drag(click_cb, click_cb, click_cb);
 		console.log(layer.x);
 		if(layer.x < 100){
 			graphToG.delete(layer.graphics);

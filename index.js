@@ -56,6 +56,33 @@ var signupForm = function() {
     return html;
 }
 
+var generateTable = function(content) {
+    var html = '<table>';
+    html += content;
+    html += '</table>';
+    return html;
+}
+
+var generateTableElement = function(nameOfNeuralNetwork) {
+    var html = '<table>';
+    html += '<tr>';
+    html += '<td>';
+    html +=  nameOfNeuralNetwork;
+    html += '</td>';
+    html += '<td>';
+    html += <button onclick="delete()">Delete</button>
+    html += '</td>';
+    html += '<td>';
+    html += <button onclick="edit()">Edit</button>
+    html += '</td>';
+    html += '<td>';
+    html += <button onclick="export()">Export</button>
+    html += '</td>';
+    html += '</tr>';
+    html += '</table>';
+    return html;
+}
+
 
 module.exports = {
     head : indexHead,

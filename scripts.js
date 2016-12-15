@@ -5,9 +5,18 @@
 
 // when the page loads
 window.onload = function(e) {
+    if(document.getElementById("login")) // on login page
+        setupLoginPage();
+}
+function setupLoginPage() {
     document.getElementById("login").onclick = login;
     document.getElementById("signup").onclick = showSignup;
 }
+
+function setupSignupPage() {
+    document.getElementById("signup").onclick = signup;
+}
+
 
 function updateContents(contents) {
     document.getElementById("content").innerHTML = contents;

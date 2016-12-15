@@ -115,63 +115,41 @@ var signupForm = function() {
     return html;
 }
 
-var generateTable = function(content) {
-    var html = '<table>';
-    html += content;
-    html += '</table>';
-    return html;
-}
-
-var generateTableElement = function(names) {
-
-    var html = '<body>
-      <div class="container">
-          <h2>Neural Networks</h2>
-          <table class="table table-striped">
-              <thead>
-              <tr>
-                  <th class="col-md-9 col-sm-9 col-xs-9">Name</th>
-                  <th class="col-md-1 col-sm-1 col xs-1">Edit</th>
-                  <th class="col-md-1 col-sm-1 col xs-1">Delete</th>
-                  <th class="col-md-1 col-sm-1 col xs-1">Export</th>
-              </tr>
-              </thead>
+var generateTable = function(names) {
+    var html = '<div class="container">\
+          <h2>Neural Networks</h2>\
+          <table class="table table-striped">\
+              <thead>\
+              <tr>\
+                  <th class="col-md-9 col-sm-9 col-xs-9">Name</th>\
+                  <th class="col-md-1 col-sm-1 col xs-1">Edit</th>\
+                  <th class="col-md-1 col-sm-1 col xs-1">Delete</th>\
+                  <th class="col-md-1 col-sm-1 col xs-1">Export</th>\
+              </tr>\
+              </thead>\
               <tbody>';
-
     // names is an array of strings
 
     for (var i = 0; i < names.length; i++) {
-        html +=  '<tr>
-                  <td>' + names[i] + '</td>
-                  <td><span class="glyphicon glyphicon-edit"></span></td>
-                  <td><span class="glyphicon glyphicon-remove"></span></td>
-                  <td><span class="glyphicon glyphicon-floppy-saved"></span></td>
+        html +=  '<tr>\
+                  <td>' + names[i] + '</td>\
+                  <td><span class="glyphicon glyphicon-edit"></span></td>\
+                  <td><span class="glyphicon glyphicon-remove"></span></td>\
+                  <td><span class="glyphicon glyphicon-floppy-saved"></span></td>\
               </tr>';
     };
-
-    html += '</tbody>
-          </table>
-      </div>
-    </body>';
-
+    html += '</tbody>\
+          </table>\
+      </div>';
     return html;
 }
-
-
-
-
-
-
-
-
-
-
 
 module.exports = {
     head : indexHead,
     body : indexBody,
     index : index,
     frontPage : frontPage,
+    generateTable : generateTable,
     loginForm : loginForm,
     signupForm : signupForm
 };

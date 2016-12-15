@@ -1,8 +1,13 @@
 var http = require('http')
   , fs   = require('fs')
   , url  = require('url')
+  , qs = require('querystring')
   , indexPage = require('./index.js')
+  , cookie = require('cookie')
   , port = 8080;
+
+var sqlite3 = require('sqlite3');
+var crypto = require('crypto');
 
 // subroutines
 

@@ -8,9 +8,19 @@ body
     
 }
 
-#content
+#container
 {
     text-align: center;
 	width: 80%;
 	margin: 0 auto;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.oc {
+  background-color: #337AB7;
+  color: white;
 }

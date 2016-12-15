@@ -25,7 +25,7 @@ function sendFile(res, filename, contentType) {
 function sendIndex(res) {
     var contentType = 'text/html', html = '';
     
-    html += indexPage.index(indexPage.loginForm());
+    html += indexPage.index(indexPage.frontPage());
     
     res.writeHead(200, {'Content-type': contentType});
     res.end(html, 'utf-8');
@@ -185,14 +185,8 @@ var server = http.createServer (function (req, res) {
     case '/scripts.js':
         sendFile(res, 'scripts.js', 'text/javascript');
         break;
-    case '/loginform':
-        sendHTML(res, indexPage.loginForm());
-        break;
     case '/login':
         handleLoginQuery(req, res);
-        break;
-    case '/signupform':
-        sendHTML(res, indexPage.signupForm());
         break;
     case '/signup':
         handleSignupQuery(req, res);

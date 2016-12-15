@@ -7,35 +7,15 @@
 window.onload = function(e) {
     if(document.getElementById("login")) // on login page
         setupLoginPage();
+    
 }
 function setupLoginPage() {
-    document.getElementById("login").onclick = login;
-    document.getElementById("signup").onclick = showSignup;
+    document.getElementById("loginButton").onclick = login;
+    document.getElementById("signupButton").onclick = signup;
 }
-
-function setupSignupPage() {
-    document.getElementById("signup").onclick = signup;
-}
-
 
 function updateContents(contents) {
-    document.getElementById("content").innerHTML = contents;
-}
-
-function signupFormReady(e) {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        if (httpRequest.status === 200) {
-            updateContents(httpRequest.responseText);
-            setupSignupPage();
-        }
-    }
-}
-
-function showSignup() {
-    httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = signupFormReady;
-    httpRequest.open('GET', "signupform");
-    httpRequest.send();
+    document.body.innerHTML = contents;
 }
 
 function handleSignup(e) {
@@ -49,9 +29,9 @@ function handleSignup(e) {
 }
 
 function signup() {
-    var userName = document.getElementById("userName").value;
-    var pass = document.getElementById("password").value;
-    var email = document.getElementById("email").value;
+    var userName = document.getElementById("signupUserName").value;
+    var pass = document.getElementById("signupPassword").value;
+    var email = document.getElementById("signupEmail").value;
     var postData = 'userName=' + userName + '&password=' + pass + '&email=' + email;
 
     httpRequest = new XMLHttpRequest();
@@ -71,10 +51,10 @@ function handleLogin(e) {
 }
 
 function login() {
-    var userName = document.getElementById("userName").value;
-    var pass = document.getElementById("password").value;
+    var userName = document.getElementById("loginUserName").value;
+    var pass = document.getElementById("loginPassword").value;
     var postData = 'userName=' + userName + '&password=' + pass;
-    
+
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = handleLogin;
     httpRequest.open('POST', "login");

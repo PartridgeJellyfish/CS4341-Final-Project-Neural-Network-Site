@@ -44,6 +44,11 @@ function hashPassword(password, salt) {
   return hash.digest('hex');
 }
 
+function parseCookie(req) {
+  if( !req.headers.cookie ) return {}
+  var rc = req.headers.cookie
+  return cookie.parse( rc )
+}
 
 function handleLoginQuery(req, res) {
     if (req.method === 'POST') {

@@ -60,3 +60,115 @@ function login() {
     httpRequest.open('POST', "login");
     httpRequest.send(postData);
 }
+
+
+// edit
+
+function attachEditEventHandler() {
+   var list = document.getElementsByClassName("glyphicon-edit");
+    for(int i = 0; i < list.length; i++)
+        list[0].onclick = buttonEditClicked;
+}
+
+function buttonEditClicked(e) {
+    networkName = e.currentTarget.parentElement.parentElement.firstChild.innerText;
+    var postData = 'networkName=' + networkName;
+
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleEdit;
+    httpRequest.open('POST', "edit");
+    httpRequest.send(postData); 
+}
+
+function handleEdit(e) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+
+        }
+    }
+}
+
+
+// remove
+
+function attachRemoveEventHandler() {
+   var list = document.getElementsByClassName("glyphicon-remove");
+    for(int i = 0; i < list.length; i++)
+        list[0].onclick = buttonRemoveClicked;
+}
+
+function buttonRemoveClicked(e) {
+    networkName = e.currentTarget.parentElement.parentElement.firstChild.innerText;
+    var postData = 'networkName=' + networkName;
+
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleRemove;
+    httpRequest.open('POST', "remove");
+    httpRequest.send(postData); 
+}
+
+function handleRemove(e) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+
+        }
+    }
+}
+
+
+// saved
+/*
+function attachSaveEventHandler() {
+   var list = document.getElementsByClassName("glyphicon-floppy-saved");
+    for(int i = 0; i < list.length; i++)
+        list[0].onclick = buttonSaveClicked;
+}
+
+function buttonSaveClicked(e) {
+    networkName = e.currentTarget.parentElement.parentElement.firstChild.innerText;
+    var postData = 'networkName=' + networkName;
+
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleSave;
+    httpRequest.open('POST', "save");
+    httpRequest.send(postData); 
+}
+
+function handleSave(e) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+
+        }
+    }
+}
+*/
+
+// export
+
+function attachExportEventHandler() {
+   var list = document.getElementsByClassName("glyphicon-floppy-saved");
+    for(int i = 0; i < list.length; i++)
+        list[0].onclick = buttonSaveClicked;
+}
+
+function buttonExportClicked(e) {
+    networkName = e.currentTarget.parentElement.parentElement.firstChild.innerText;
+    var postData = 'networkName=' + networkName;
+
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleExport;
+    httpRequest.open('POST', "export");
+    httpRequest.send(postData); 
+}
+
+function handleExport(e) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+
+        }
+    }
+}

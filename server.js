@@ -168,6 +168,85 @@ function failedSignup(req, res, msg) {
     res.end('<div id="error">' + msg + '</div>' + indexPage.signupForm(), 'utf-8');
 }
 
+// edit
+
+function handleEdit(req, res) {
+    if (req.method === 'POST') {
+        var body = '';
+        
+        req.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                req.connection.destroy();
+            }
+        });
+        
+        req.on('end', function () {
+            var POST = qs.parse(body);
+            var name = POST.networkName;
+        });
+                   
+    }
+    else {
+        res.end('404 not found');
+    }
+}
+
+// remove 
+
+function handleRemove(req, res) {
+    if (req.method === 'POST') {
+        var body = '';
+        
+        req.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                req.connection.destroy();
+            }
+        });
+        
+        req.on('end', function () {
+            var POST = qs.parse(body);
+            var name = POST.networkName;
+        });
+                   
+    }
+    else {
+        res.end('404 not found');
+    }
+}
+
+// export
+
+function handleExport(req, res) {
+    if (req.method === 'POST') {
+        var body = '';
+        
+        req.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                req.connection.destroy();
+            }
+        });
+        
+        req.on('end', function () {
+            var POST = qs.parse(body);
+            var name = POST.networkName;
+        });
+                   
+    }
+    else {
+        res.end('404 not found');
+    }
+}
+
+
 // server
 var server = http.createServer (function (req, res) {
     var uri = url.parse(req.url)
@@ -193,6 +272,15 @@ var server = http.createServer (function (req, res) {
         break;
     case '/README.md':
         sendFile(res, 'readme.txt', 'text/plain');
+        break;
+    case '/export':
+        handleExport(req, res);
+        break;
+    case '/remove':
+        handleRemove(req, res);
+        break;
+    case '/edit':
+        handleEdit(req, res);
         break;
     default:
         res.end('404 not found')

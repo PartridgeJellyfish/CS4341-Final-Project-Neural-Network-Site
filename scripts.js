@@ -38,10 +38,45 @@ function showSignup() {
     httpRequest.send();
 }
 
+function handleSignup(e) {
+     if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+            if(document.getElementById("signup")) // we failed to signup
+                setupSignupPage();
+        }
+    }
+}
+
 function signup() {
-    console.log("Signup");
+    var userName = document.getElementById("userName").value;
+    var pass = document.getElementById("password").value;
+    var email = document.getElementById("email").value;
+    var postData = 'userName=' + userName + '&password=' + pass + '&email=' + email;
+
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleSignup;
+    httpRequest.open('POST', "signup");
+    httpRequest.send(postData);
+}
+
+function handleLogin(e) {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            updateContents(httpRequest.responseText);
+            if(document.getElementById("login")) // we failed to login
+                setupLoginPage();
+        }
+    }
 }
 
 function login() {
-    console.log("Login");
+    var userName = document.getElementById("userName").value;
+    var pass = document.getElementById("password").value;
+    var postData = 'userName=' + userName + '&password=' + pass;
+    
+    httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = handleLogin;
+    httpRequest.open('POST', "login");
+    httpRequest.send(postData);
 }

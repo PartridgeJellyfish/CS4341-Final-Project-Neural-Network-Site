@@ -148,6 +148,11 @@
 			this.y = y;
       this.id = id;
 		}
+    get str(){
+      var code = '';
+      code += 'Layer L' + this.id + " = Layer(" + this.size + ");\n";
+      return code;
+    }
 	}
 
 	class Connection {
@@ -168,6 +173,11 @@
     constructor(inputid, outputid){
       this.inputid = inputid;
       this.outputid = outputid;
+    }
+    get str(){
+      var code = '';
+      code += "L"+this.inputid + ".linkInput(&L"+ this.outputid + ");\n";
+      return code;
     }
   }
 
@@ -343,7 +353,32 @@
     }
 
 		function generate(){
+      var arr = [];
+  		function logMapElements3(value, key, map) {
+  			arr.push(value);
+  		}
+      graphToG.forEach(logMapElements3);
 
+      var glsmap = new Map();
+
+      var printstr = "";
+      var strarr = [];
+      for(i = 0; i < arr.length; i++){
+        strarr.push(new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i));
+        glsmap.set(arr[i], ""+i);
+        printstr += new GLayerSaveable(arr[i].size, arr[i].x, arr[i].y, ""+i).str;
+      }
+
+      var connarr = [];
+      for(i = 0; i < connections.length; i++){
+        connarr.push(new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)));
+        printstr += new ConnectionSaveable(glsmap.get(connections[i].inputc), glsmap.get(connections[i].outputc)).str;
+      }
+
+      var tostra = [];
+      tostra.push(strarr, connarr);
+
+      alert(printstr);
 		}
 
 		geng.drag(mt, mt, generate);

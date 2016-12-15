@@ -26,7 +26,7 @@ function signupFormReady(e) {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
             updateContents(httpRequest.responseText);
-            document.getElementById("signup").onclick = signup;
+            setupSignupPage();
         }
     }
 }

@@ -138,6 +138,12 @@ var generateTable = function(names) {
                   <td><span class="glyphicon glyphicon-floppy-saved"></span></td>\
               </tr>';
     };
+    html += '<tr>\
+                  <td><span id="newNetworkButton" class="glyphicon glyphicon-plus"></span></td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+              </tr>';
     html += '</tbody>\
           </table>\
       </div>';

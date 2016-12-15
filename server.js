@@ -61,7 +61,7 @@ var server = http.createServer (function (req, res) {
         sendFile(res, 'readme.txt', 'text/plain');
         break;
 		case '/node_modules/snap/dist/snap.svg-min.js':
-    	 	sendFile(res, 'node_modules/snap/dist/snap.svg-min.js', 'text/javascript');
+    	 	sendFile(res, 'node_modules/snap/dist/snap.svg.js', 'text/javascript');
         break;
 		default:
         res.end('404 not found')
